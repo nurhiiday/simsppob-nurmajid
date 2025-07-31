@@ -1,6 +1,6 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { updateField, resetForm, submitRegister } from "./registerSlice";
+import { useDispatch } from "react-redux";
+import { submitRegister } from "./registerSlice";
 import { AtSymbolIcon, UserIcon } from "@heroicons/react/16/solid";
 import InputPassword from "../../components/InputPassword";
 import { useForm } from "react-hook-form";
@@ -9,38 +9,27 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 const RegisterForm = () => {
     const dispatch = useDispatch();
-    const form = useSelector((state) => state.register);
 
     const {
         register,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm({
-        resolver: yupResolver(registerSchema)
+        resolver: yupResolver(registerSchema),
     });
 
-    console.log(errors);
-
-    const handleChange = (e) => {
-        dispatch(updateField({field: e.target.name, value: e.target.value}));
-    };
-
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        
+    const onSubmit = async (data) => {
         const payload = {
-            email: form.email,
-            first_name: form.firstName,
-            last_name: form.lastName,
-            password: form.password
+            email: data.email,
+            first_name: data.firstName,
+            last_name: data.lastName,
+            password: data.password,
         };
-
-        //check
-        console.log(JSON.stringify(payload));
 
         dispatch(submitRegister(payload));
         
-        dispatch(resetForm());       
+        reset();      
     }
 
     return (
@@ -60,11 +49,8 @@ const RegisterForm = () => {
                         </span>
                         <input
                             {...register("email")}
-                            name="email"
                             type="email"
                             placeholder="masukkan email anda"
-                            value={form.email}
-                            onChange={handleChange}
                             className="w-full pl-10 px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
                         />
                         {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
@@ -75,13 +61,12 @@ const RegisterForm = () => {
                             <UserIcon className="h-5 w-5" />
                         </span>
                         <input
-                            name="firstName"
+                            {...register("firstName")}
                             type="text"
                             placeholder="nama depan"
-                            value={form.firstName}
-                            onChange={handleChange}
                             className="w-full pl-10 px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
-                        />              
+                        />
+                        {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName.message}</p>}              
                     </div>
 
                     <div className="relative">
@@ -89,17 +74,16 @@ const RegisterForm = () => {
                             <UserIcon className="h-5 w-5" />
                         </span>
                         <input
-                            name="lastName"
+                            {...register("lastName")}
                             type="text"
                             placeholder="nama belakang"
-                            value={form.lastName}
-                            onChange={handleChange}
                             className="w-full pl-10 px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
                         />
+                        {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName.message}</p>}
                     </div>
 
-                    <InputPassword name="password" placeholder="buat password" />
-                    <InputPassword name="passwordVal" placeholder="konfirmasi password" />
+                    <InputPassword register={register} error={errors.password} name="password" placeholder="buat password" />
+                    <InputPassword register={register} error={errors.passwordVal} name="passwordVal" placeholder="konfirmasi password" />
                     
                     <button type="submit" className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700">
                         Registrasi

@@ -4,13 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateField } from '../features/register/registerSlice'
 import { LockClosedIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
 
-const InputPassword = ({name, placeholder}) => {
+const InputPassword = ({register, error, name, placeholder}) => {
     const [showPassword, setShowPassword] = useState(false);
-    const dispatch = useDispatch();
-    const value = useSelector((state) => state.register[name] || '')
-    const handleChange = (e) =>{
-        dispatch(updateField({ field: name, value: e.target.value}));
-    };
 
     return(
         <div className="relative">
@@ -18,11 +13,9 @@ const InputPassword = ({name, placeholder}) => {
                 <LockClosedIcon className="h-5 w-5" />
             </span>
             <input
-                name={name}
+                {...register(name)}
                 type={showPassword ? 'text' : 'password'}
                 placeholder={placeholder}
-                value={value}
-                onChange={handleChange}
                 className="w-full pl-10 px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
             />
             <button
