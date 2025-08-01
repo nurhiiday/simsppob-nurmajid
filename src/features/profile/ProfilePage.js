@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { AtSymbolIcon, UserIcon } from "@heroicons/react/16/solid";
 import Navbar from "../../components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { fetchProfileDetail, updateProfile } from "./profileSlice";
+import { fetchProfileDetail } from "./profileSlice";
 
 
 const ProfilePage = () => {
@@ -13,9 +13,7 @@ const ProfilePage = () => {
 
     const {
         register,
-        reset,
         setValue,
-        handleSubmit,
     } = useForm({
         defaultValues: {
             email: "",
@@ -30,7 +28,7 @@ const ProfilePage = () => {
         if (!profileDetail) {
             dispatch(fetchProfileDetail());
         }
-    }, [token, dispatch]);
+    }, [token,profileDetail, dispatch]);
 
     useEffect(() => {
         if (profileDetail) {
