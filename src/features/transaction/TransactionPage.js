@@ -16,7 +16,7 @@ const TransactionPage = () => {
         if (!history) {
             dispatch(fetchHistory());
         }
-    }, [token, dispatch]);
+    }, [token,history, dispatch]);
 
     return(
         <div>
