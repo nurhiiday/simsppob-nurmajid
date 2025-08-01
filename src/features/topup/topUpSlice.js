@@ -1,20 +1,50 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    nominal: '',
+    amount: null,
 };
 
 const topUpSlice = createSlice({
     name: 'topup',
     initialState,
     reducers: {
-        updateTopUpField: (state, action) => {
-            const {field, value} = action.payload;
-            state[field] = value;
-        },
-        resetTopUp: () => initialState,
-    }
+
+    },
 });
 
-export const { updateTopUpField, resetTupUp } = topUpSlice.actions;
+export const submitTopUP = createAsyncThunk(
+    'topup/submitTopUp',
+    async (data, { getState, rejectWithValue }) => {
+        const token = getState().auth.user?.token
+        console.log(token)
+
+        try {
+            const response = await fetch("https://take-home-test-api.nutech-integrasi.com/topup",{
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body:JSON.stringify({
+                    top_up_amount: Number(data.top_up_amount)
+                }),
+            });
+
+            const result = await response.json();
+            console.log(JSON.stringify(result))
+
+            if(!response.ok) {
+                alert(JSON.stringify(result,null,2));
+                return;
+            }
+
+            return result.data;
+            alert("Top Up berhasil!");
+        } catch (error) {
+            alert ("Terjadi kesalahan")
+        }
+    }
+);
+
+export const {  } = topUpSlice.actions;
 export default topUpSlice.reducer;

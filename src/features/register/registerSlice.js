@@ -12,7 +12,6 @@ const registerSlice = createSlice({
     name: 'register',
     initialState,
     reducers: {
-
         resetForm: () => initialState,
     }
 });

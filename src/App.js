@@ -11,7 +11,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/register" element={<RegisterForm/>} />
+        <Route path="/" element={<RegisterForm/>} />
         <Route path="/login" element={<AuthForm/>} />
         <Route path="/home" element={<HomePage/>}/>
         <Route path="/topup" element={<TopUpPage/>}/>

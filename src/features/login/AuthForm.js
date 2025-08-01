@@ -1,21 +1,37 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { updateAuthField, resetAuthForm } from "./authSlice";
-import { AtSymbolIcon, UserIcon } from "@heroicons/react/16/solid";
+import { useDispatch } from "react-redux";
+import { submitLogin } from "./authSlice";
+import { AtSymbolIcon } from "@heroicons/react/16/solid";
 import InputPassword from "../../components/InputPassword";
+import { useForm } from "react-hook-form";
+import { loginSchema } from "./authValidation";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Link, useNavigate } from "react-router-dom";
 
 const AuthForm = () => {
     const dispatch = useDispatch();
-    const form = useSelector((state) => state.auth);
+    const navigate = useNavigate();
 
-    const handleChange = (e) => {
-        dispatch(updateAuthField({field: e.target.name, value: e.target.value}));
-    };
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm({
+        resolver: yupResolver(loginSchema),
+    });
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        //
-        dispatch(resetAuthForm());
+    const onSubmit = async (data) => {
+        const payload = {
+            email: data.email,
+            password: data.password,
+        }
+
+        const resultLogin = await dispatch(submitLogin(payload));
+        if (resultLogin.meta.requestStatus === 'fulfilled') {
+        navigate('/home');
+        }
+        reset();
     }
 
     return (
@@ -28,22 +44,21 @@ const AuthForm = () => {
 
                 <h2 className="text-2xl font-semibold text-center mb-6">Masuk atau buat akun<br />untuk memulai</h2>
 
-                <form className="w-full max-w-sm space-y-4">
+                <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-sm space-y-4">
                     <div className="relative">
                         <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
                             <AtSymbolIcon className="h-5 w-5" />
                         </span>
                         <input
-                            name="email"
+                            {...register("email")}
                             type="email"
                             placeholder="masukkan email anda"
-                            value={form.email}
-                            onChange={handleChange}
                             className="w-full pl-10 px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
                         />
+                        {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
                     </div>
 
-                    <InputPassword name="password" placeholder="buat password" />
+                    <InputPassword register={register} error={errors.password} name="password" placeholder="buat password" />
 
                     <button type="submit" className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700">
                         Masuk
@@ -51,7 +66,7 @@ const AuthForm = () => {
                 </form>
 
                 <p className="text-sm text-gray-500 mt-4">
-                belum punya akun? registrasi <a href="#" className="text-red-600 font-semibold">di sini</a>
+                belum punya akun? registrasi <Link to="/" className="text-red-600 font-semibold">di sini</Link>
                 </p>
             </div>
 

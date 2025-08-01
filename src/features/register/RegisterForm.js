@@ -6,6 +6,7 @@ import InputPassword from "../../components/InputPassword";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "./registerValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Link } from "react-router-dom";
 
 const RegisterForm = () => {
     const dispatch = useDispatch();
@@ -91,7 +92,7 @@ const RegisterForm = () => {
                 </form>
 
                 <p className="text-sm text-gray-500 mt-4">
-                sudah punya akun? <a href="#" className="text-red-600 font-semibold">login di sini</a>
+                sudah punya akun? <Link to="/login" className="text-red-600 font-semibold">login di sini</Link>
                 </p>
             </div>
 
