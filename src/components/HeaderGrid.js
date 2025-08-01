@@ -18,7 +18,7 @@ const HeaderGrid = () => {
         if (!balance) {
             dispatch(fetchBalance());
         }
-    }, [token, dispatch]);
+    }, [token,balance,profile, dispatch]);
 
     return(
         <div className=" justify-between flex mb-5">

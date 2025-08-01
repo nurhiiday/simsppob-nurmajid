@@ -46,7 +46,6 @@ export const submitLogin = createAsyncThunk(
             }
 
             return result.data;
-            alert("Login berhasil!");
         } catch (error) {
             alert ("Terjadi kesalahan")
         }

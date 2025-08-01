@@ -1,7 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { updateField } from '../features/register/registerSlice'
 import { LockClosedIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
 
 const InputPassword = ({register, error, name, placeholder}) => {

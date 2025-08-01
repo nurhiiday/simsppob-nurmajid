@@ -39,12 +39,10 @@ export const submitTopUP = createAsyncThunk(
             }
 
             return result.data;
-            alert("Top Up berhasil!");
         } catch (error) {
             alert ("Terjadi kesalahan")
         }
     }
 );
 
-export const {  } = topUpSlice.actions;
 export default topUpSlice.reducer;

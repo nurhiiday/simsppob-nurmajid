@@ -8,7 +8,7 @@ import {  fetchBanner,  fetchService } from "./homeSlice";
 
 const HomePage = () => {
     const dispatch = useDispatch();
-    const { banner, service, error } = useSelector((state) => state.home);
+    const { banner, service } = useSelector((state) => state.home);
     const token = useSelector((state) => state.auth.user?.token)
 
     useEffect(() => {
@@ -21,7 +21,7 @@ const HomePage = () => {
         if (!service) {
             dispatch(fetchService());
         }
-    }, [token, dispatch]);
+    }, [token,banner,service, dispatch]);
 
 
     return(

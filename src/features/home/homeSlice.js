@@ -66,7 +66,6 @@ export const fetchProfile = createAsyncThunk(
             }
 
             return result.data;
-            alert("Login berhasil!");
         } catch (error) {
             alert ("Terjadi kesalahan")
 
@@ -95,7 +94,6 @@ export const fetchBalance = createAsyncThunk(
             }
 
             return result.data;
-            alert("Login berhasil!");
         } catch (error) {
             alert ("Terjadi kesalahan")
 
@@ -124,7 +122,6 @@ export const fetchService = createAsyncThunk(
             }
 
             return result.data;
-            alert("Proses berhasil!");
         } catch (error) {
             alert ("Terjadi kesalahan")
 
@@ -153,7 +150,6 @@ export const fetchBanner = createAsyncThunk(
             }
 
             return result.data;
-            alert("Akses banner berhasil!");
         } catch (error) {
             alert ("Terjadi kesalahan")
 
@@ -161,5 +157,4 @@ export const fetchBanner = createAsyncThunk(
     }
 )
 
-export const {  } = homeSlice.actions;
 export default homeSlice.reducer;
