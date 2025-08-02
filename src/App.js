@@ -6,6 +6,7 @@ import TopUpPage from './features/topup/TopUpPage';
 import TransactionPage from "./features/transaction/TransactionPage";
 import PaymentPage from "./features/payment/PaymentPage";
 import ProfilePage from "./features/profile/ProfilePage";
+import UpdateProfilePage from "./features/profile/UpdateProfilePage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/transaction" element={<TransactionPage/>}/>
         <Route path="/payment" element={<PaymentPage/>}/>
         <Route path="/profile" element={<ProfilePage/>}/>
+        <Route path="/profile/update" element={<UpdateProfilePage/>}/>
       </Routes>
     </BrowserRouter>
   );

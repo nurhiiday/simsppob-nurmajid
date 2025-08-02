@@ -16,7 +16,6 @@ export const submitTopUP = createAsyncThunk(
     'topup/submitTopUp',
     async (data, { getState, rejectWithValue }) => {
         const token = getState().auth.user?.token
-        console.log(token)
 
         try {
             const response = await fetch("https://take-home-test-api.nutech-integrasi.com/topup",{

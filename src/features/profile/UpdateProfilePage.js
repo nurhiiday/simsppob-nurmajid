@@ -3,18 +3,20 @@ import { AtSymbolIcon, UserIcon } from "@heroicons/react/16/solid";
 import Navbar from "../../components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { fetchProfileDetail } from "./profileSlice";
+import { fetchProfileDetail, updateProfile } from "./profileSlice";
 import { useNavigate } from "react-router-dom";
 
-const ProfilePage = () => {
+const UpdateProfilePage = () => {
     const dispatch = useDispatch();
     const { profileDetail } = useSelector((state) => state.profile);
     const token = useSelector((state) => state.auth.user?.token)
     const navigate = useNavigate();
-
+    
     const {
         register,
         setValue,
+        handleSubmit,
+        reset,
     } = useForm({
         defaultValues: {
             email: "",
@@ -39,10 +41,20 @@ const ProfilePage = () => {
         }
     }, [profileDetail, setValue])
 
-    const toUpdatePage = () => {
-        navigate('/profile/update')
+    const onSubmit = async (data) => {
+        const payload = {
+            first_name: data.firstName,
+            last_name: data.lastName,
+        }
+
+        dispatch(updateProfile(payload));
+        reset();
+        navigate('/profile')
     }
 
+    const toProfilePage = () => {
+        navigate('/profile')
+    }
 
     return(
         <div>
@@ -59,7 +71,7 @@ const ProfilePage = () => {
                 <h2 className="text-xl font-semibold mt-4">{profileDetail?.first_name} {profileDetail?.last_name}</h2>
                 
                 {profileDetail? (
-                    <form className="w-full space-y-4">
+                    <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
                         <div className="w-full text-left space-y-1">
                             <label className="text-sm">Email</label>
                             <div className="relative">
@@ -84,7 +96,6 @@ const ProfilePage = () => {
                                 <input
                                     {...register("firstName")}
                                     type="text"
-                                    disabled
                                     placeholder="nama depan"
                                     className="w-full pl-10 px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
                                 />              
@@ -99,20 +110,21 @@ const ProfilePage = () => {
                                 <input
                                     {...register("lastName")}
                                     type="text"
-                                    disabled
                                     placeholder="nama belakang"
                                     className="w-full pl-10 px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
                                 />
                             </div>
                         </div>
-                            <div className="space-y-4">
-                                <button onClick={toUpdatePage} type="button" className="mt-4 w-full bg-white border-2 border-red-600 text-black py-2 rounded-md hover:bg-gray-200">
-                                    Edit Profile
-                                </button>
-                                <button  className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700">
-                                    Logout
-                                </button>
-                            </div>                        
+                        <div className="space-y-4">
+                            <button type="submit" className="mt-4 w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700">
+                                Simpan
+                            </button>
+                            <button onClick={toProfilePage} type="button" className="w-full bg-white border-2 border-red-600 text-black py-2 rounded-md hover:bg-gray-200">
+                                Batal
+                            </button>
+
+                        </div>
+                        
                     </form>
                 ) : (
                     <p>...</p>
@@ -124,4 +136,4 @@ const ProfilePage = () => {
     );
 };
 
-export default ProfilePage;
+export default UpdateProfilePage;
